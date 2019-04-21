@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Set;
 
 public interface Ioc {
-    void addBean(Object bean) throws InstantiationException, IllegalAccessException;
+    void addBean(Object bean);
+
+    void addProxyBean(Object target, Object proxyBean);
 
     Object createBean(Class<?> type);
 
