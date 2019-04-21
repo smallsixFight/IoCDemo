@@ -3,6 +3,8 @@ package com.lamlake.IoCDemo.aop;
 import com.lamlake.IoCDemo.Ioc;
 import com.lamlake.IoCDemo.annotation.Bean;
 import com.lamlake.IoCDemo.annotation.Point;
+import com.lamlake.IoCDemo.exception.InterfaceNotFoundException;
+import com.lamlake.IoCDemo.exception.PointcutParseException;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
@@ -20,7 +22,7 @@ public class AopHandler {
                 int methodNameStart = value.lastIndexOf(".");
                 if (methodNameStart == -1) {
                     // 抛出异常
-                    System.err.println("分解失败！");
+                    throw new PointcutParseException(value);
                 }
                 String clazzName = value.substring(0, methodNameStart);
                 String methodName = value.substring(methodNameStart +1);
@@ -29,6 +31,7 @@ public class AopHandler {
                 if (clazz.getInterfaces().length == 0) {
                     // 抛出异常
                     System.err.println("没有父接口");
+                    throw new InterfaceNotFoundException(clazzName);
                 }
 
                 if (clazz.getAnnotation(Bean.class) == null) {
