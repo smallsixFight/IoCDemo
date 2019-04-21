@@ -6,7 +6,7 @@ import com.lamlake.IoCDemo.annotation.AopBefore;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CommonInvokeHandler implements InvocationHandler {
@@ -23,11 +23,10 @@ public class CommonInvokeHandler implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        System.out.println("target: " + target.getClass().getCanonicalName());
         Method[] methods = aopTarget.getClass().getMethods();
-        List<Method> beforeMethods = new LinkedList<>();
-        List<Method> afterMethods = new LinkedList<>();
-        List<Method> aroundMethods = new LinkedList<>();
+        List<Method> beforeMethods = new ArrayList<>();
+        List<Method> afterMethods = new ArrayList<>();
+        List<Method> aroundMethods = new ArrayList<>();
 
         for (Method method1 : methods) {
 

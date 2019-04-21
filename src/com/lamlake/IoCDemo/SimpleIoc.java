@@ -4,6 +4,7 @@ import com.lamlake.IoCDemo.annotation.Bean;
 import com.lamlake.IoCDemo.annotation.Inject;
 import com.lamlake.IoCDemo.bean.BeanDefine;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.*;
 
@@ -16,20 +17,49 @@ public class SimpleIoc implements Ioc {
         addBean(bean.getClass().getName(), bean);
     }
 
+    @Override
+    public void addProxyBean(Object target, Object proxyBean) {
+        // 注入依赖
+        injectInstanceToBean(proxyBean);
+        // 将 bean 放入 pool
+        BeanDefine beanDefine = new BeanDefine(proxyBean);
+//        for (Annotation annotation : target.getClass().getAnnotations()) {
+//            pool.put(annotation.getClass().getName(), beanDefine);
+//        }
+//        pool.put(target.getClass().getName(), beanDefine);
+        // 将 bean 实现的接口放入 pool，bean 作为具体实现类
+        addProxyBeanWithInterface(target, beanDefine);
+    }
+
     private void addBean(String name, Object bean) {
         // 注入依赖
         injectInstanceToBean(bean);
-
         // 将 bean 放入 pool
         BeanDefine beanDefine = new BeanDefine(bean);
         if (pool.put(name, beanDefine) != null)
-            System.out.println("fuck...");
+            System.err.println("the Bean was exists.");
         // 将 bean 实现的接口放入 pool，bean 作为具体实现类
+        addBeanWithInterface(beanDefine);
+    }
+
+    private void addProxyBeanWithInterface(Object target, BeanDefine beanDefine) {
+        Class<?>[] interfaces = target.getClass().getInterfaces();
+        if (interfaces.length > 0) {
+            for (Class<?> interfaceClazz : interfaces) {
+
+                if (pool.put(interfaceClazz.getName(), beanDefine) != null)
+                    System.err.println("旧的 bean 实例被覆盖，名称为 " + interfaceClazz.getName());
+            }
+        }
+    }
+
+    private void addBeanWithInterface(BeanDefine beanDefine) {
         Class<?>[] interfaces = beanDefine.getType().getInterfaces();
         if (interfaces.length > 0) {
             for (Class<?> interfaceClazz : interfaces) {
-                if (pool.put(interfaceClazz.getName(), beanDefine) != null)
-                    System.err.println("旧的 bean 实例被覆盖，名称为 " + interfaceClazz.getName());
+                pool.putIfAbsent(interfaceClazz.getName(), beanDefine);
+//                if (pool.put(interfaceClazz.getName(), beanDefine) != null)
+//                    System.err.println("旧的 bean 实例被覆盖，名称为 " + interfaceClazz.getName());
             }
         }
     }
@@ -48,9 +78,7 @@ public class SimpleIoc implements Ioc {
     @Override
     public Object getBean(String name) {
         BeanDefine beanDefine = pool.get(name);
-        if (beanDefine == null)
-            return null;
-        return beanDefine.getBean();
+        return beanDefine == null ? null : beanDefine.getBean();
     }
 
     @Override

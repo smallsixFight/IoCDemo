@@ -1,4 +1,4 @@
-package com.lamlake.IoCDemo.aop;
+package com.lamlake.IoCDemo.entity;
 
 import com.lamlake.IoCDemo.annotation.Bean;
 

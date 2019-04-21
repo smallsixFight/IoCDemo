@@ -1,5 +1,6 @@
 package com.lamlake.IoCDemo.utils;
 
+import com.lamlake.IoCDemo.annotation.Aop;
 import com.lamlake.IoCDemo.annotation.Bean;
 
 import java.io.File;
@@ -13,7 +14,7 @@ public class ScannerBeanUtil {
     // 获取所有类
     public static List<Class<?>> getBeanClassByPackageName(String pkgName, Enumeration<URL> dirs) {
         List<Class<?>> classes = new ArrayList<>();
-            System.out.println("dirs->" + dirs.hasMoreElements());
+//            System.out.println("dirs->" + dirs.hasMoreElements());
         while (dirs.hasMoreElements()) {
             URL url = dirs.nextElement();
             findAndAddClassesInPackageByFile(pkgName, url.getFile(), classes);
@@ -24,7 +25,7 @@ public class ScannerBeanUtil {
     private static void findAndAddClassesInPackageByFile(String packageName, String filePath, List<Class<?>> classes) {
         File dir = new File(filePath);
         if (!dir.exists() || !dir.isDirectory()) {
-//            System.out.println("not exists");
+            System.out.println("not exists");
             return;
         }
         File[] dirFiles = dir.listFiles(file -> file.isDirectory() || (file.getName().endsWith(".class")));
@@ -35,7 +36,7 @@ public class ScannerBeanUtil {
                 String className = file.getName().substring(0, file.getName().length() - 6);
                 try {
                     Class clazz = Class.forName(packageName.replace('/', '.') + '.' + className);
-                    if (clazz.getAnnotation(Bean.class) != null)
+                    if (clazz.getAnnotation(Bean.class) != null || clazz.getAnnotation(Aop.class) != null)
                         classes.add(clazz);
 
                 } catch (ClassNotFoundException e) {
@@ -45,20 +46,4 @@ public class ScannerBeanUtil {
         }
 
     }
-
-//    public static void validAnnotation(List<Class<?>> classList) {
-//        if (classList != null && classList.size() > 0) {
-//            for (Class<?> cls : classList) {
-//                Method[] methods = cls.getDeclaredMethods();
-//                if (methods != null && methods.length > 0 ) {
-//                    for (Method method : methods) {
-//                        Resource resource = method.getAnnotation(Resource.class);
-//                        if (resource != null) {
-//                            System.out.println(resource.name());
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
 }
