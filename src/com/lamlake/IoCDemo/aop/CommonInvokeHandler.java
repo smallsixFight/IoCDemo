@@ -42,8 +42,7 @@ public class CommonInvokeHandler implements InvocationHandler {
         }
         if (pointMethodName == null || pointMethodName.equals("") || !pointMethodName.equals(method.getName())) {
             // 执行代理类的方法
-            Object obj = method.invoke(target, args);
-            return obj;
+            return method.invoke(target, args);
         }
 
         for (Method beforeMethod : beforeMethods) {

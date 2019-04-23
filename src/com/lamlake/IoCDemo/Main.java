@@ -3,8 +3,10 @@ package com.lamlake.IoCDemo;
 import com.lamlake.IoCDemo.annotation.Aop;
 import com.lamlake.IoCDemo.annotation.Bean;
 import com.lamlake.IoCDemo.aop.AopHandler;
-import com.lamlake.IoCDemo.entity.IUserInfo;
-import com.lamlake.IoCDemo.entity.UserInfoImpl;
+import com.lamlake.IoCDemo.ioc.Ioc;
+import com.lamlake.IoCDemo.ioc.SimpleIoc;
+import com.lamlake.IoCDemo.service.IUserInfo;
+import com.lamlake.IoCDemo.service.Impl.UserInfoImpl;
 import com.lamlake.IoCDemo.utils.ScannerBeanUtil;
 
 import java.io.IOException;

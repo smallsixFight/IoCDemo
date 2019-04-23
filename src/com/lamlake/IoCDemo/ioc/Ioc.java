@@ -1,4 +1,4 @@
-package com.lamlake.IoCDemo;
+package com.lamlake.IoCDemo.ioc;
 
 import java.util.List;
 import java.util.Set;

@@ -1,8 +1,8 @@
 package com.lamlake.IoCDemo.aop;
 
-import com.lamlake.IoCDemo.Ioc;
+import com.lamlake.IoCDemo.ioc.Ioc;
 import com.lamlake.IoCDemo.annotation.Bean;
-import com.lamlake.IoCDemo.annotation.Point;
+import com.lamlake.IoCDemo.annotation.Pointcut;
 import com.lamlake.IoCDemo.exception.InterfaceNotFoundException;
 import com.lamlake.IoCDemo.exception.PointcutParseException;
 
@@ -16,9 +16,9 @@ public class AopHandler {
 
     public static void addProxyToIoc(Ioc ioc, Object aopTarget) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
         for (Method method : aopTarget.getClass().getDeclaredMethods()) {
-            Annotation annotation = method.getAnnotation(Point.class);
+            Annotation annotation = method.getAnnotation(Pointcut.class);
             if (annotation != null) {
-                String value = ((Point) annotation).value();
+                String value = ((Pointcut) annotation).value();
                 int methodNameStart = value.lastIndexOf(".");
                 if (methodNameStart == -1) {
                     // 抛出异常

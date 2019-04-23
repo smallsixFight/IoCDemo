@@ -1,6 +1,7 @@
-package com.lamlake.IoCDemo.entity;
+package com.lamlake.IoCDemo.service.Impl;
 
 import com.lamlake.IoCDemo.annotation.Bean;
+import com.lamlake.IoCDemo.service.IUserInfo;
 
 @Bean
 public class UserInfoImpl implements IUserInfo {

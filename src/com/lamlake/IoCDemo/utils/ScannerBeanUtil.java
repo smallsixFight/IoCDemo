@@ -29,6 +29,7 @@ public class ScannerBeanUtil {
             return;
         }
         File[] dirFiles = dir.listFiles(file -> file.isDirectory() || (file.getName().endsWith(".class")));
+        assert dirFiles != null;
         for (File file : dirFiles) {
             if (file.isDirectory()) {
                 findAndAddClassesInPackageByFile(packageName + '/' + file.getName(), file.getAbsolutePath(), classes);

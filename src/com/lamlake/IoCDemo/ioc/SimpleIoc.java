@@ -1,10 +1,10 @@
-package com.lamlake.IoCDemo;
+package com.lamlake.IoCDemo.ioc;
 
 import com.lamlake.IoCDemo.annotation.Bean;
 import com.lamlake.IoCDemo.annotation.Inject;
 import com.lamlake.IoCDemo.bean.BeanDefine;
+import com.lamlake.IoCDemo.ioc.Ioc;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.*;
 
@@ -46,7 +46,6 @@ public class SimpleIoc implements Ioc {
         Class<?>[] interfaces = target.getClass().getInterfaces();
         if (interfaces.length > 0) {
             for (Class<?> interfaceClazz : interfaces) {
-
                 if (pool.put(interfaceClazz.getName(), beanDefine) != null)
                     System.err.println("旧的 bean 实例被覆盖，名称为 " + interfaceClazz.getName());
             }

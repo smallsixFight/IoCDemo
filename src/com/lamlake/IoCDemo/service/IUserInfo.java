@@ -1,4 +1,4 @@
-package com.lamlake.IoCDemo.entity;
+package com.lamlake.IoCDemo.service;
 
 public interface IUserInfo {
 

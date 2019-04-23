@@ -5,7 +5,7 @@ import com.lamlake.IoCDemo.annotation.*;
 @Aop
 public class AopInstance {
 
-    @Point("com.lamlake.IoCDemo.entity.UserInfoImpl.getName")
+    @Pointcut("com.lamlake.IoCDemo.service.Impl.UserInfoImpl.getName")
     public void point(){}
 
     @AopBefore
